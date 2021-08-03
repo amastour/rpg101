@@ -10,22 +10,29 @@ class Player(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
         self.position = [ x, y]
         self.images ={
-            'down': self.get_image(0,0),
-            'left': self.get_image(0,32),
-            'right': self.get_image(0,64),
-            'up': self.get_image(0,96)
+            'down': [self.get_image(0, 0), self.get_image(0, 0), self.get_image(32, 0), self.get_image(32, 0), self.get_image(64, 0), self.get_image(64, 0)],
+            'left': [self.get_image(0, 32), self.get_image(32, 32), self.get_image(64, 32)],
+            'right': [self.get_image(0, 64), self.get_image(32, 64), self.get_image(64, 64)],
+            'up':   [self.get_image(0, 96), self.get_image(32, 96), self.get_image(64, 96)]
         }
         self.feet = pygame.Rect(0, 0, self.rect.width*0.5, 12) 
         self.old_position = self.position.copy()
         self.speed = 2
+        self.old_move = "up"
+        self.pos=0
 
 
     def save_location(self): self.old_position = self.position.copy()
 
     
     def change_animation(self, name): 
-        self.image = self.images[name]
+        if self.old_move != name or self.pos > 2:
+            self.old_move = name
+            self.pos=0
+        self.image = self.images[name][self.pos]
         self.image.set_colorkey([0,0,0])
+        self.pos +=1
+        
 
     def move_right(self): self.position[0] += self.speed
 

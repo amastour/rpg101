@@ -147,7 +147,7 @@ class Game:
             for event in pygame.event.get():
                 if event.type == pygame.QUIT:
                     running = False
-            clock.tick(60)
+            clock.tick(30)
         pygame.quit()
 
 
